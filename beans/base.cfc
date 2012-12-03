@@ -52,4 +52,22 @@ component displayname="Base bean" accessorts="true" {
         return this;
     }
     
+    private void function convertJSONToSelf( required string dataInJSON ) {
+        convertStructToSelf( deserializeJSON( dataInJSON ) );
+    }
+    
+    private void function convertStructToSelf( required struct dataInStruct ) {
+        var dataKeys = listToArray( structKeyList( dataInStruct ) );
+        var properties = getMetaData( this ).properties;
+        var i = 0;
+        var key = '';
+
+        for ( i = 1; i <= arrayLen( dataKeys ); i++ ) {
+            key = dataKeys[ i ];
+            if ( isDefined('this.set#key#') ) {
+                evaluate('this.set#key#( dataInStruct[ key ] )');
+            }
+        }
+    }
+    
 }

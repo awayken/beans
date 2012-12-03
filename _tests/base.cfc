@@ -6,7 +6,7 @@ component extends="mxunit.framework.testcase" {
             value = "Fake value",
             extraProperty = "Fake property"
         };
-        var bean = new simplebean( argumentCollection=data );
+        var bean = new beans.simplebean( argumentCollection=data );
         
         assertEquals( bean.getName(), data.name );
         assertEquals( bean.getValue(), data.value );
@@ -28,9 +28,9 @@ component extends="mxunit.framework.testcase" {
                 c = 3
             },
             testQuery = queryNew('ID, Name, Numbers', 'integer, varchar, integer'),
-            testObject = new simplebean( name='Fake name' )
+            testObject = new beans.simplebean( name='Fake name' )
         };
-        var bean = new complicatedbean( argumentCollection=data );
+        var bean = new beans.complicatedbean( argumentCollection=data );
         
         assertEquals( bean.gettestString(), data.testString );
         assertEquals( bean.gettestNumeric(), data.testNumeric );
@@ -40,6 +40,33 @@ component extends="mxunit.framework.testcase" {
         assertEquals( bean.gettestStruct(), data.testStruct );
         assertEquals( bean.gettestQuery(), data.testQuery );
         assertEquals( bean.gettestObject().getName(), 'Fake name' );
+    }
+    
+    function testConvertJSONToSelf() {
+        var bean = new beans.simplebean();
+        var inJSON = '{"name":"Miles Rausch","value":"Fake value"}';
+        
+        makePublic( bean, 'convertJSONToSelf' );
+        
+        bean.convertJSONToSelf( inJSON );
+        
+        assertEquals( bean.getName(), 'Miles Rausch' );
+        assertEquals( bean.getValue(), 'Fake value' );
+    }
+    
+    function testConvertStructToSelf() {
+        var bean = new beans.simplebean();
+        var inStruct = {
+            name="Miles Rausch",
+            value="Fake value"
+        };
+        
+        makePublic( bean, 'convertStructToSelf' );
+        
+        bean.convertStructToSelf( inStruct );
+        
+        assertEquals( bean.getName(), 'Miles Rausch' );
+        assertEquals( bean.getValue(), 'Fake value' );
     }
     
 }

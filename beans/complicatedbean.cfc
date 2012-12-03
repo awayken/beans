@@ -1,4 +1,4 @@
-component extends="beans.base" accessors="true" {
+component extends="base" accessors="true" {
     
     property name="testString" type="string" default="";
     property name="testNumeric" type="numeric" default=0;
