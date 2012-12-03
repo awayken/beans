@@ -1,11 +1,16 @@
 component displayname="Base bean" accessorts="true" {
     
     public any function init() {
-        var properties = getMetaData( this ).properties;
+        var metaData = getMetaData( this );
+        var properties = [];
         var i = 0;
         var key = '';
         var setvalue = '';
-
+        
+        if ( structKeyExists( metaData, 'properties' ) ) {
+            properties = metaData.properties;
+        }
+        
         for ( i = 1; i <= arrayLen( properties ); i++ ) {
             property = properties[ i ].name;
             propertyType = '';
