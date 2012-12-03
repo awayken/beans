@@ -61,11 +61,25 @@ component displayname="Base bean" accessorts="true" {
         var properties = getMetaData( this ).properties;
         var i = 0;
         var key = '';
-
+        
         for ( i = 1; i <= arrayLen( dataKeys ); i++ ) {
             key = dataKeys[ i ];
             if ( isDefined('this.set#key#') ) {
                 evaluate('this.set#key#( dataInStruct[ key ] )');
+            }
+        }
+    }
+    
+    private void function convertQueryToSelf( required query dataInQuery ) {
+        var dataKeys = listToArray( dataInQuery.columnList );
+        var properties = getMetaData( this ).properties;
+        var i = 0;
+        var key = '';
+        
+        for ( i = 1; i <= arrayLen( dataKeys ); i++ ) {
+            key = dataKeys[ i ];
+            if ( isDefined('this.set#key#') ) {
+                evaluate('this.set#key#( dataInQuery[ key ][ 1 ] )');
             }
         }
     }

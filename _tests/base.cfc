@@ -69,4 +69,20 @@ component extends="mxunit.framework.testcase" {
         assertEquals( bean.getValue(), 'Fake value' );
     }
     
+    function testConvertQueryToSelf() {
+        var bean = new beans.simplebean();
+        var inQuery = queryNew('Name, Value', 'varchar, varchar');
+        
+        queryAddRow( inQuery, 1 );
+        querySetCell( inQuery, 'Name', 'Miles Rausch' );
+        querySetCell( inQuery, 'Value', 'Fake value' );
+        
+        makePublic( bean, 'convertQueryToSelf' );
+        
+        bean.convertQueryToSelf( inQuery );
+        
+        assertEquals( bean.getName(), 'Miles Rausch' );
+        assertEquals( bean.getValue(), 'Fake value' );
+    }
+    
 }
