@@ -84,4 +84,32 @@ component displayname="Base bean" accessorts="true" {
         }
     }
     
+    public string function show( required string property, string wrapBefore='', string wrapAfter='' ) {
+        var ret = '';
+        
+        if ( structKeyExists( variables, property ) ) {
+            ret = variables[ property ];
+            
+            if ( isNumeric( ret ) ) {
+                if ( val( ret ) ) {
+                    ret = wrapBefore & ret & wrapAfter;
+                } else {
+                    ret = '';
+                }
+            } else if ( isBoolean( ret ) ) {
+                if ( ret ) {
+                    ret = wrapBefore & yesNoFormat( ret ) & wrapAfter;
+                } else {
+                    ret = '';
+                }
+            } else if ( len( ret ) ) {
+                ret = wrapBefore & ret & wrapAfter;
+            } else {
+                ret = '';
+            }
+        }
+        
+        return ret;
+    }
+    
 }

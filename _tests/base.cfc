@@ -85,4 +85,17 @@ component extends="mxunit.framework.testcase" {
         assertEquals( bean.getValue(), 'Fake value' );
     }
     
+    function testSimpleShow() {
+        var data = {
+            name = "Fake name"
+        };
+        var bean = new beans.simplebean( argumentCollection=data );
+        
+        assertEquals( bean.show('name'), data.name );
+        assertEquals( bean.show( 'name', 'Name: ' ), 'Name: ' & data.name );
+        assertEquals( bean.show( 'name', 'Name: ', '.' ), 'Name: ' & data.name & '.' );
+        bean.setName('');
+        assertTrue( len( bean.show('name') ) == 0 );
+    }
+    
 }
