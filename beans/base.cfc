@@ -41,8 +41,11 @@ component displayname="Base bean" accessorts="true" {
                         case 'query':
                             setvalue = queryNew('');
                             break;
-                        default:
+                        case 'string':
                             setvalue = '';
+                            break;
+                        default:
+                            setvalue = createObject( 'component', propertyType ).init();
                     }
                 }
                 evaluate('this.set#property#( setvalue )');

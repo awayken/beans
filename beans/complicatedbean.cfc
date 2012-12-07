@@ -7,6 +7,6 @@ component extends="base" accessors="true" {
     property name="testArray" type="array";
     property name="testStruct" type="struct";
     property name="testQuery" type="query";
-    property name="testObject" type="simplebean";
+    property name="testObject" type="beans.simplebean";
     
 }
