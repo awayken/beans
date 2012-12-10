@@ -1,4 +1,4 @@
-component displayname="Base bean" accessorts="true" {
+component displayname="Base bean" accessors="true" {
     
     public any function init() {
         var metaData = getMetaData( this );
@@ -6,6 +6,8 @@ component displayname="Base bean" accessorts="true" {
         var i = 0;
         var key = '';
         var setvalue = '';
+        var property = '';
+        var propertyType = '';
         
         if ( structKeyExists( metaData, 'properties' ) ) {
             properties = metaData.properties;
