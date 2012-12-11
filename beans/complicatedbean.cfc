@@ -1,5 +1,6 @@
 component extends="base" accessors="true" {
     
+    property name="testAny" type="any";
     property name="testString" type="string" default="";
     property name="testNumeric" type="numeric" default=0;
     property name="testBoolean" type="boolean" default=false;

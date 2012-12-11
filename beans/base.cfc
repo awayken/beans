@@ -42,6 +42,7 @@ component displayname="Base bean" accessorts="true" {
                             setvalue = queryNew('');
                             break;
                         case 'string':
+                        case 'any':
                             setvalue = '';
                             break;
                         default:
