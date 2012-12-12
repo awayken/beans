@@ -42,6 +42,24 @@ component extends="mxunit.framework.testcase" {
         assertEquals( bean.gettestObject().getName(), 'Fake name' );
     }
     
+    function testExtendingInit() {
+        var data = {
+            name = "Fake name",
+            value = "Fake value",
+            extraProperty = "Fake property",
+            likesToExtend = true
+        };
+        url.dev = true;
+        var bean = new beans.extendingbean( argumentCollection=data );
+        url.dev = false;
+        assertEquals( bean.getName(), data.name );
+        assertEquals( bean.getValue(), data.value );
+        assertFalse( isDefined('bean.getextraproperty'), 'extraProperty should not have a getter' );
+        assertFalse( isDefined('bean.setextraproperty'), 'extraProperty should not have a setter' );
+        assertFalse( isDefined('bean.extraproperty'), 'extraProperty should not have a value' );
+        assertEquals( bean.getLikesToExtend(), data.likesToExtend );
+    }
+    
     function testConvertJSONToSelf() {
         var bean = new beans.simplebean();
         var inJSON = '{"name":"Miles Rausch","value":"Fake value"}';
@@ -96,6 +114,38 @@ component extends="mxunit.framework.testcase" {
         assertEquals( bean.show( 'name', 'Name: ', '.' ), 'Name: ' & data.name & '.' );
         bean.setName('');
         assertTrue( len( bean.show('name') ) == 0 );
+    }
+    
+    function testGetProperties() {
+        var bean = new beans.base();
+        var metaData = {
+            name = 'First cfc',
+            properties = [ 'likesToExtend' ],
+            extends = {
+                name = 'Second cfc',
+                properties = [ 'name', 'value' ],
+                extends = {
+                    name = 'Third cfc',
+                    extends = {
+                        name = 'Fourth cfc',
+                        type = 'Fake type',
+                        properties = [ 'original name', 'original value' ]
+                    }
+                }
+            }
+        };
+        var properties = [];
+        
+        makePublic( bean, 'getProperties' );
+        
+        properties = bean.getProperties( metaData );
+        
+        assertEquals( arrayLen( properties ), 5 );
+        assertEquals( properties[ 1 ], metaData.properties[ 1 ] );
+        assertEquals( properties[ 2 ], metaData.extends.properties[ 1 ] );
+        assertEquals( properties[ 3 ], metaData.extends.properties[ 2 ] );
+        assertEquals( properties[ 4 ], metaData.extends.extends.extends.properties[ 1 ] );
+        assertEquals( properties[ 5 ], metaData.extends.extends.extends.properties[ 2 ] );
     }
     
 }

@@ -1,4 +1,4 @@
-component displayname="Base bean" accessorts="true" {
+component displayname="Base bean" accessors="true" {
     
     public any function init() {
         var metaData = getMetaData( this );
@@ -7,9 +7,7 @@ component displayname="Base bean" accessorts="true" {
         var key = '';
         var setvalue = '';
         
-        if ( structKeyExists( metaData, 'properties' ) ) {
-            properties = metaData.properties;
-        }
+        properties = getProperties( metadata );
         
         for ( i = 1; i <= arrayLen( properties ); i++ ) {
             property = properties[ i ].name;
@@ -54,6 +52,28 @@ component displayname="Base bean" accessorts="true" {
         }
         
         return this;
+    }
+    
+    private array function getProperties( required struct metadata ) {
+        var properties = [];
+        var tempProperties = [];
+        var i = 0;
+        
+        if ( structKeyExists( metaData, 'properties' ) ) {
+            tempProperties = metaData.properties;
+            for ( i = 1; i <= arrayLen( tempProperties ); i = i + 1 ) {
+                arrayAppend( properties, tempProperties[ i ] );
+            }
+        }
+        
+        if ( structKeyExists( metaData, 'extends' ) ) {
+            tempProperties = getProperties( metaData.extends );
+            for ( i = 1; i <= arrayLen( tempProperties ); i = i + 1 ) {
+                arrayAppend( properties, tempProperties[ i ] );
+            }
+        }
+        
+        return properties;
     }
     
     private void function convertJSONToSelf( required string dataInJSON ) {
