@@ -6,6 +6,8 @@ component displayname="Base bean" accessors="true" {
         var i = 0;
         var key = '';
         var setvalue = '';
+        var property = '';
+        var propertyType = '';
         
         properties = getProperties( metadata );
         
