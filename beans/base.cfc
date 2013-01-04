@@ -113,8 +113,8 @@ component displayname="Base bean" accessors="true" {
     public string function show( required string property, string wrapBefore='', string wrapAfter='' ) {
         var ret = '';
         
-        if ( structKeyExists( variables, property ) ) {
-            ret = variables[ property ];
+        if ( isDefined('this.get#property#') ) {
+            evaluate('ret = this.get#property#()');
             
             if ( isNumeric( ret ) ) {
                 if ( val( ret ) ) {
