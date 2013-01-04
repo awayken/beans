@@ -114,25 +114,34 @@ component displayname="Base bean" accessors="true" {
         var ret = '';
         
         if ( isDefined('this.get#property#') ) {
-            evaluate('ret = this.get#property#()');
-            
-            if ( isNumeric( ret ) ) {
-                if ( val( ret ) ) {
-                    ret = wrapBefore & ret & wrapAfter;
-                } else {
-                    ret = '';
-                }
-            } else if ( isBoolean( ret ) ) {
-                if ( ret ) {
-                    ret = wrapBefore & yesNoFormat( ret ) & wrapAfter;
-                } else {
-                    ret = '';
-                }
-            } else if ( len( ret ) ) {
+            try {
+                ret = evaluate('this.get#property#()');
+                len( ret );
+            } catch( any ex ) {
+                ret = '';
+            }
+        }
+        
+        if ( !len( ret ) && structKeyExists( variables, property ) ) {
+            ret = variables[ property ];
+        }
+        
+        if ( isNumeric( ret ) ) {
+            if ( val( ret ) ) {
                 ret = wrapBefore & ret & wrapAfter;
             } else {
                 ret = '';
             }
+        } else if ( isBoolean( ret ) ) {
+            if ( ret ) {
+                ret = wrapBefore & yesNoFormat( ret ) & wrapAfter;
+            } else {
+                ret = '';
+            }
+        } else if ( len( ret ) ) {
+            ret = wrapBefore & ret & wrapAfter;
+        } else {
+            ret = '';
         }
         
         return ret;
