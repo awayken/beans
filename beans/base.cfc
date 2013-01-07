@@ -118,12 +118,12 @@ component displayname="Base bean" accessors="true" {
                 ret = evaluate('this.get#property#()');
                 len( ret );
             } catch( any ex ) {
-                ret = '';
+                if ( structKeyExists( variables, property ) ) {
+                    ret = variables[ property ];
+                } else {
+                    ret = '';
+                }
             }
-        }
-        
-        if ( !len( ret ) && structKeyExists( variables, property ) ) {
-            ret = variables[ property ];
         }
         
         if ( isNumeric( ret ) ) {
